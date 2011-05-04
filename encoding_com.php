@@ -1,12 +1,12 @@
 <?php
 
-class Panda {
+class Encoding_com {
     public function __construct($args) {
         $known_options = array(
             'cloud_id' => null,
             'access_key' => null,
             'secret_key' => null,
-            'api_host' => 'api.pandastream.com',
+            'api_host' => 'api.encoding.com',
             'api_port' => 80,
         );
         foreach ($known_options as $option => $default) {
