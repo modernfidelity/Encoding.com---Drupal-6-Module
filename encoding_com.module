@@ -41,29 +41,22 @@ function encoding_com_menu() {
 }
 
 function encoding_com_admin() {
+	
   $form = array();
 
-  $form['encoding_com_access_key'] = array(
+  $form['encoding_com_user_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Access Key'),
-    '#default_value' => variable_get('encoding_com_access_key', NULL),
-    '#description' => t("Your Panda access key, as per your account details."),
+    '#title' => t('User ID '),
+    '#default_value' => variable_get('encoding_com_user_id', NULL),
+    '#description' => t("Your Encoding.com User ID, as per your account details."),
     '#required' => TRUE,
   );
 
-  $form['encoding_com_secret_key'] = array(
+  $form['encoding_com_api_user_key'] = array(
     '#type' => 'textfield',
-    '#title' => t('Secret Key'),
-    '#default_value' => variable_get('encoding_com_secret_key', NULL),
-    '#description' => t("Your Panda secret key, as per your account details."),
-    '#required' => TRUE,
-  );
-
-  $form['encoding_com_cloud_id'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Cloud ID'),
-    '#default_value' => variable_get('encoding_com_cloud_id', NULL),
-    '#description' => t("The ID of the Panda cloud you want to use."),
+    '#title' => t('User API Key'),
+    '#default_value' => variable_get('encoding_com_api_user_key', NULL),
+    '#description' => t("Your Encoding.com API User Key, as per your account details."),
     '#required' => TRUE,
   );
 
