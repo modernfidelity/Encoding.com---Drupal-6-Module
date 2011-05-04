@@ -1,0 +1,291 @@
+<?php
+// $Id$
+
+require('panda.php');
+
+function encoding_com_theme() {
+  return array(
+    'encoding_com_uploader' => array('arguments' => array('element' => NULL)),
+    'encoding_com_formatter_default' => array('arguments' => array('element' => NULL)),
+  );
+}
+
+function encoding_com_help($path, $arg) {
+  $output = '';
+
+  switch ($path) {
+    case "admin/help#panda":
+      $output = '<p>'.  t("This module allows users to upload videos through !panda, the video encoding service", array('!panda' => l("Panda", 'http://pandastream.com'))) .'</p>';
+      break;
+  }
+  return $output;
+}
+
+function encoding_com_perm() {
+  return array('upload videos');
+}
+
+function encoding_com_menu() {
+  $items = array();
+
+  $items['admin/settings/panda'] = array(
+    'title' => 'Panda',
+    'description' => 'Specify your Panda account details here',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('encoding_com_admin'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+   );
+
+  return $items;
+}
+
+function encoding_com_admin() {
+  $form = array();
+
+  $form['encoding_com_access_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Access Key'),
+    '#default_value' => variable_get('encoding_com_access_key', NULL),
+    '#description' => t("Your Panda access key, as per your account details."),
+    '#required' => TRUE,
+  );
+
+  $form['encoding_com_secret_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Secret Key'),
+    '#default_value' => variable_get('encoding_com_secret_key', NULL),
+    '#description' => t("Your Panda secret key, as per your account details."),
+    '#required' => TRUE,
+  );
+
+  $form['encoding_com_cloud_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Cloud ID'),
+    '#default_value' => variable_get('encoding_com_cloud_id', NULL),
+    '#description' => t("The ID of the Panda cloud you want to use."),
+    '#required' => TRUE,
+  );
+
+  $form['encoding_com_s3_bucket'] = array(
+    '#type' => 'textfield',
+    '#title' => t('S3 Bucket'),
+    '#default_value' => variable_get('encoding_com_s3_bucket', NULL),
+    '#description' => t("The name of the S3 bucket where Panda has been configured to store your videos."),
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+}
+
+function encoding_com_field_info() {
+  return array(
+    'encoding_com_video' => array(
+      'label' => t('Video file'),
+      'description' => t('Upload a video directly to Panda for immediate encoding'),
+    ),
+  );
+}
+
+function encoding_com_widget_info() {
+  return array(
+    'encoding_com_uploader' => array(
+      'label' => t('JS uploader'),
+      'field types' => array('encoding_com_video'),
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
+  );
+}
+
+function encoding_com_field_settings($op, $field) {
+  $delegate = 'encoding_com_field_settings_' . str_replace(' ', '_', $op);
+  if (function_exists($delegate)) {
+    return $delegate($field);
+  }
+}
+
+function encoding_com_field_settings_database_columns($field) {
+  return array(
+    'video_id' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE, 'sortable' => TRUE),
+  );
+}
+
+function encoding_com_field($op, &$node, $field, &$items, $teaser, $page) {
+  $delegate = 'encoding_com_field_' . $op;
+  if (function_exists($delegate)) {
+    return $delegate($node, $field, $items, $teaser, $page);
+  }
+}
+
+function encoding_com_field_formatter_info() {
+  return array(
+    'default' => array('label' => t('Default'), 'field types' => array('encoding_com_video')),
+  );
+}
+
+function encoding_com_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+  $element = array(
+    '#type' => $field['widget']['type'],
+    '#default_value' => isset($items[$delta]) ? $items[$delta] : NULL,
+  );
+  return $element;
+}
+
+function encoding_com_elements() {
+  $elements = array();
+  $elements['encoding_com_uploader'] = array(
+    '#input' => TRUE,
+    '#columns' => array('video_id'),
+    '#process' => array('encoding_com_widget_process'),
+  );
+  return $elements;
+}
+
+function encoding_com_widget_process($element, $edit, $form_state, $complete_form) {
+  $field_key = 'video_id';
+  drupal_add_js(drupal_get_path('module', 'panda') .'/encoding_com_uploader/jquery.panda-uploader-0.6.cat.js');
+
+  $prefix = '';
+  if (isset($element['#value']['video_id']) && $element['#value']['video_id']) {
+    $prefix .= theme('encoding_com_formatter_default', array('#item' => $element['#value']));
+  }
+  $prefix .= _encoding_com_widget_additional_markup($element['#id']);
+
+  $element[$field_key] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($element['#value'][$field_key]) ? $element['#value'][$field_key] : '',
+    '#title' => $element['#title'],
+    '#description' => $element['#description'],
+    '#required' => $element['#required'],
+    '#field_name' => $element['#field_name'],
+    '#type_name' => $element['#type_name'],
+    '#delta' => $element['#delta'],
+    '#columns' => $element['#columns'],
+    '#prefix' => $prefix,
+    '#suffix' => _encoding_com_widget_js($element['#id']),
+  );
+
+  return $element;
+}
+
+function encoding_com_content_is_empty($item, $field) {
+  return ! $item['video_id'];
+}
+
+
+function theme_encoding_com_uploader($element) {
+  drupal_add_css(drupal_get_path('module', 'panda') .'/encoding_com_uploader/panda-uploader.css');
+  return theme('form_element', $element, $element['#children']);
+}
+
+function theme_encoding_com_formatter_default($element) {
+  $video_id = $element['#item']['video_id'];
+  $vid = _encoding_com_get_video_details($video_id);
+  $vid->url = _encoding_com_get_video_url($vid);
+  $vid->screenshot_url = _encoding_com_get_screenshot_url($vid);
+  if ($vid->status == 'success') {
+    $output = <<<EOF
+<div>
+  <video id="movie" width="{$vid->width}" height="{$vid->height}" preload="none" poster="{$vid->screenshot_url}" controls>
+    <source src="{$vid->url}" type="video/mp4">
+  </video>
+</div>
+EOF;
+  }
+  else {
+    $output = <<<EOF
+<p>This video is currently being processed. Please wait until completed.</p>
+EOF;
+  }
+  return $output;
+}
+
+function _encoding_com_widget_additional_markup($element_id) {
+  return <<<EOF
+    <span id="{$element_id}-upload_button"></span>
+    <input type="text" id="{$element_id}-upload_filename" disabled="true" class="encoding_com_upload_filename" />
+    <div id="{$element_id}-upload_progress" class="encoding_com_upload_progress"></div>
+EOF;
+}
+
+function _encoding_com_widget_js($element_id) {
+  $signed_params = json_encode(@_panda()->signed_params('POST', '/videos.json'));
+  return <<<EOF
+<script type="text/javascript">
+if ($('#{$element_id}-video-id').length > 0) {
+  $('#{$element_id}-video-id').pandaUploader($signed_params, {
+    upload_button_id: '{$element_id}-upload_button',
+    upload_filename_id: '{$element_id}-upload_filename',
+    upload_progress_id: '{$element_id}-upload_progress',
+    api_url: 'http://api.pandastream.com/v2',
+    uploader_dir: '/encoding_com_example_php/encoding_com_uploader',
+    disable_submit_button: false
+  });
+}
+</script>
+EOF;
+}
+
+function _panda() {
+  static $panda;
+  if ($panda) {
+    return $panda;
+  }
+  $cloud_id = variable_get('encoding_com_cloud_id', NULL);
+  $access_key = variable_get('encoding_com_access_key', NULL);
+  $secret_key = variable_get('encoding_com_secret_key', NULL);
+  $panda = new Panda(array('cloud_id' => $cloud_id, 'access_key' => $access_key, 'secret_key' => $secret_key));
+  return $panda;
+}
+
+function _encoding_com_get_video_url($details) {
+  return _encoding_com_get_file_base_url($details) . $details->extname;
+}
+
+function _encoding_com_get_screenshot_url($details) {
+  return _encoding_com_get_file_base_url($details) . '_4.jpg';
+}
+
+function _encoding_com_get_file_base_url($details) {
+  $s3_bucket_name = variable_get('encoding_com_s3_bucket', NULL);
+  return "http://$s3_bucket_name.s3.amazonaws.com/{$details->encoding_id}";
+}
+
+function _encoding_com_get_video_details($video_id) {
+  static $details;
+  if ($details) {
+    return $details;
+  }
+
+  $details = db_fetch_object(db_query("SELECT * FROM {encoding_com_video_encodings} WHERE video_id = '%s'", $video_id));
+  if ($details && $details->status != 'processing') {
+    return $details;
+  }
+
+  $encodings = json_decode(@_panda()->get("/videos/$video_id/encodings.json"));
+  if ( ! $encodings) {
+    return NULL;
+  }
+
+  // TODO: mechanism to choose between available profiles
+  // TODO: break gently if no profiles available
+  foreach ($encodings as $encoding) {
+    if ($encoding->extname == '.mp4') {
+      $encoding->encoding_id = $encoding->id;
+      unset($encoding->id);
+      $details = _encoding_com_store_video_details($encoding);
+    }
+  }
+
+  return $details;
+}
+
+function _encoding_com_store_video_details($encoding) {
+  db_query("UPDATE {encoding_com_video_encodings} SET status = '%s' WHERE video_id = '%s'", $encoding->status, $encoding->video_id);
+  if ( ! db_affected_rows()) {
+    db_query("INSERT INTO {encoding_com_video_encodings} (video_id, encoding_id, width, height, extname, status) VALUES ('%s', '%s', %d, %d, '%s', '%s')", $encoding->video_id, $encoding->encoding_id, $encoding->width, $encoding->height, $encoding->extname, $encoding->status);
+  }
+  return $encoding;
+}

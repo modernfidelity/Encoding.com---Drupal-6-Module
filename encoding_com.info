@@ -1,0 +1,6 @@
+; $Id$
+name = Encoding.com API 
+description = Integration work with Encoding.com, the cloud-based video encoding service
+core = 6.x
+dependencies[] = content
+package = Modernfidelity Studios

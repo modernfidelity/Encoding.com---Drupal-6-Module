@@ -1,0 +1,140 @@
+<form action="action.php" method="POST">
+	<input type="hidden" name="format[output]" value="flv" />
+	<table>
+		<tr>
+			<td>Source URL</td>
+			<td>
+				<input type="text" name="source" />
+ 			</td>
+		</tr>
+		<tr>
+			<td>Size</td>
+			<td>
+				<select name="format[size]">
+					<option value="320x240">320 x 240</option>
+					<option value="368x192">368 x 192</option>
+					<option value="480x360">480 x 360</option>
+					<option value="640x480">640 x 480</option>
+					<option value="800x600">800 x 600</option>
+					<option value="852x480">852 x 480</option>
+					<option value="128x96">128 x 96</option>
+					<option value="176x144">176 x 144</option>
+					<option value="352x288">352 x 288</option>
+					<option value="704x576">704 x 576</option>
+					<option value="1280x720">1280 x 720</option>
+					<option value="1408x1152">1408 x 1152</option>
+					<option value="1920x1080">1920 x 1080</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Bitrate (kbps)</td>
+			<td>
+				<select name="format[bitrate]">
+					<option value="256k">256k</option>
+					<option value="300k">300k</option>
+					<option value="512k">512k</option>
+					<option value="784k">784k</option>
+					<option value="1024k">1024k</option>
+					<option value="1600k">1600k</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Audio bitrate (kbps)</td>
+			<td>
+				<select name="format[audio_bitrate]">
+					<option value="32k">32k</option>
+					<option value="40k">40k</option>
+					<option value="48k">48k</option>
+					<option value="56k">56k</option>
+					<option value="64k" selected>64k</option>
+					<option value="80k">80k</option>
+					<option value="96k">96k</option>
+					<option value="112k">112k</option>
+					<option value="128k">128k</option>
+					<option value="144k">144k</option>
+					<option value="160k">160k</option>
+					<option value="192k">192k</option>
+					<option value="224k">224k</option>
+					<option value="256k">256k</option>
+					<option value="320k">320k</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Audio sample rate (Hz)</td>
+			<td>
+				<select name="format[audio_sample_rate]">
+					<option value="44100" selected>44100</option>
+					<option value="22050">22050</option>
+					<option value="11025">11025</option>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>Audio channels number</td>
+			<td>
+				<select name="format[audio_channels_number]">
+					<option value="1">1</option>
+					<option value="2" selected>2</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Frame Rate</td>
+			<td>
+				<input type="text" name="format[framerate]" />
+			</td>
+		</tr>
+		<tr>
+			<td>2 pass encoding</td>
+			<td>
+				<select name="format[two_pass]">
+					<option value="yes">yes</option>
+					<option value="no" selected>no</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Constant bitrate</td>
+			<td>
+				<select name="format[cbr]">
+					<option value="yes">yes</option>
+					<option value="no" selected>no</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>De-interlacing </td>
+			<td>
+				<select name="format[deinterlacing]">
+					<option value="yes">yes</option>
+					<option value="no" selected>no</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Destination File</td>
+			<td>
+				<input type="text" name="format[destination]" />
+			</td>
+		</tr>
+		<tr>
+			<td>Add meta data</td>
+			<td>
+				<select name="format[add_meta]">
+					<option value="yes">yes</option>
+					<option value="no" selected>no</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+		<td>
+			<input type="submit" name="send" value="Send Request" />
+		</td>
+	</tr>
+	</table>
+</form>

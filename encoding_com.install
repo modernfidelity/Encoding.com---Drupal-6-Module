@@ -1,0 +1,59 @@
+<?php
+// $Id$
+
+function encoding_com_schema() {
+  $schema['encoding_com_video_encodings'] = array(
+    'description' => t('Details of video files uploaded to Encoding.com'),
+    'fields' => array(
+      'encoding_id' => array(
+        'description' => t('ID of the resulting video encoding in Encoding.com'),
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+      ),
+      'video_id' => array(
+        'description' => t('ID of the original video in Encoding.com'),
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+      ),
+      'extname' => array(
+        'description' => t('Extension of the resulting video file'),
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 255,
+      ),
+      'status' => array(
+        'description' => t('Status of the transcoding'),
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 10,
+      ),
+      'width' => array(
+        'description' => t('Width of the resulting video'),
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'height' => array(
+        'description' => t('Height of the resulting video'),
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'video_id' => array('video_id'),
+      'status' => array('status'),
+    ),
+    'primary key' => array('encoding_id'),
+  );
+
+  return $schema;
+}
+
+function encoding_com_install() {
+  drupal_install_schema('encoding_com_video_encodings');
+}
+
+function encoding_com_uninstall() {
+  drupal_uninstall_schema('encoding_com_video_encodings');
+}
