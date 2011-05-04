@@ -29,7 +29,7 @@ function encoding_com_menu() {
   $items = array();
 
   $items['admin/settings/encoding_com'] = array(
-    'title' => 'Encoding.com Settings',
+    'title' => 'Encoding.com API Settings',
     'description' => 'Specify your Encoding.com account details here',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('encoding_com_admin'),
