@@ -1,5 +1,5 @@
 <?php
-// $Id$
+
 
 require('panda.php');
 
@@ -14,8 +14,8 @@ function encoding_com_help($path, $arg) {
   $output = '';
 
   switch ($path) {
-    case "admin/help#panda":
-      $output = '<p>'.  t("This module allows users to upload videos through !panda, the video encoding service", array('!panda' => l("Panda", 'http://pandastream.com'))) .'</p>';
+    case "admin/help#encoding_com":
+      $output = '<p>'.  t("This module allows users to upload videos through Encoding.com, the video encoding service") .'</p>';
       break;
   }
   return $output;
@@ -28,9 +28,9 @@ function encoding_com_perm() {
 function encoding_com_menu() {
   $items = array();
 
-  $items['admin/settings/panda'] = array(
-    'title' => 'Panda',
-    'description' => 'Specify your Panda account details here',
+  $items['admin/settings/encoding_com'] = array(
+    'title' => 'Encoding.com Settings',
+    'description' => 'Specify your Encoding.com account details here',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('encoding_com_admin'),
     'access arguments' => array('access administration pages'),
@@ -71,7 +71,7 @@ function encoding_com_admin() {
     '#type' => 'textfield',
     '#title' => t('S3 Bucket'),
     '#default_value' => variable_get('encoding_com_s3_bucket', NULL),
-    '#description' => t("The name of the S3 bucket where Panda has been configured to store your videos."),
+    '#description' => t("The name of the S3 bucket where Encoding.com will store your videos."),
     '#required' => TRUE,
   );
 
@@ -82,7 +82,7 @@ function encoding_com_field_info() {
   return array(
     'encoding_com_video' => array(
       'label' => t('Video file'),
-      'description' => t('Upload a video directly to Panda for immediate encoding'),
+      'description' => t('Upload a video directly to Encoding.com for immediate encoding'),
     ),
   );
 }
@@ -145,7 +145,7 @@ function encoding_com_elements() {
 
 function encoding_com_widget_process($element, $edit, $form_state, $complete_form) {
   $field_key = 'video_id';
-  drupal_add_js(drupal_get_path('module', 'panda') .'/encoding_com_uploader/jquery.panda-uploader-0.6.cat.js');
+  drupal_add_js(drupal_get_path('module', 'encoding_com') .'/encoding_com_uploader/jquery.encoding_com-uploader-0.6.cat.js');
 
   $prefix = '';
   if (isset($element['#value']['video_id']) && $element['#value']['video_id']) {

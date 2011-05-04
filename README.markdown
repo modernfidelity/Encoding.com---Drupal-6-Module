@@ -1,15 +1,10 @@
-Panda module for Drupal/CCK
+Encoding.com API module for Drupal 6/CCK
 ===========================
 
-    DISCLAIMER: this module is experimental and not recommended for production use.
+DISCLAIMER: this module is experimental and not recommended for production use.
 
 A **Drupal 6** module that adds a new field "Video file" that can be added to your CCK content types.
 
-Also available:
-
-* the simple [PHP Panda client](http://github.com/newbamboo/panda_client_php) library that this application is based on
-* the simple [Panda jQuery plugin](http://github.com/newbamboo/panda_uploader) used to upload files
-* a [example standalone PHP application](http://github.com/newbamboo/panda_example_php)
 
 Installation
 ============
@@ -27,12 +22,12 @@ Download it
 Copy this code into your modules directory:
 
     cd YOUR-DRUPAL-PATH/sites/all/modules/
-    git clone git@github.com:newbamboo/panda_drupal.git panda
+   
 
 Enable it
 ---------
 
-Enable the module "Panda" at *Administer >> Site building >> Modules*
+Enable the module "Encoding.com API" at *Administer >> Site building >> Modules*
 
 Create a new content type
 -------------------------
@@ -48,7 +43,4 @@ How to use your favourite video player
 
 By default, this module uses HTML5 to render the video player. You might want to use a different player instead, such as one of the many popular Flash players there are available.
 
-This modules doesn't provide as yet an automated way to do this. Instead, a theme hook is provided for theme developers to implement. This should make it fairly simple for them to render the video in any way they wish. The name of this hook is `theme_panda_formatter_default`.
 
-
-Copyright (c) 2010 New Bamboo. Distributed under the terms of the MIT License. See LICENSE file for details
