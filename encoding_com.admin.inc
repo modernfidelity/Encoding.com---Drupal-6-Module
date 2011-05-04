@@ -3,29 +3,22 @@
 function encoding_com_admin() {
 	
   $form = array();
-
   
-  	// Video transcode defaults for Encoding.com
-  
-	$form ['transcode_default_settings'] = array(
-      '#type' => 'fieldset', 
-      '#title' => t('Default Transcode'), 
-      '#weight' => 0, 
-      '#collapsible' => TRUE, 
-      '#collapsed' => FALSE 
-	);
-  
-	
-	
-	// Encoding + S3 Url and settings
-	
-	$form ['encoding_com_settings'] = array(
-      '#type' => 'fieldset', 
-      '#title' => t('Encoding.com API Details'), 
-      '#weight' => 0, 
-      '#collapsible' => TRUE, 
-      '#collapsed' => FALSE 
-	);
+  $form ['transcode_default_settings'] = array(
+    '#type' => 'fieldset', 
+    '#title' => t('Default Transcode'), 
+    '#weight' => 0, 
+    '#collapsible' => TRUE, 
+    '#collapsed' => FALSE 
+  );
+ 	
+  $form ['encoding_com_settings'] = array(
+    '#type' => 'fieldset', 
+    '#title' => t('Encoding.com API Details'), 
+    '#weight' => 0, 
+    '#collapsible' => TRUE, 
+    '#collapsed' => FALSE 
+  );
   
   
   $form['encoding_com_settings']['encoding_com_user_id'] = array(
