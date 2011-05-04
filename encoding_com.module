@@ -1,7 +1,7 @@
 <?php
 
 
-require('panda.php');
+require('encoding_com.php');
 
 function encoding_com_theme() {
   return array(
