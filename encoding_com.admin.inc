@@ -2,7 +2,7 @@
 
 function encoding_com_admin_form() {
   
-  $form = array('#id' => array('encoding_com_default_settings' ));
+  $form = array('#id' =>'encoding_com_default_settings');
   
   $form ['transcode_default_settings'] = array(
       '#type' => 'fieldset', 
@@ -66,7 +66,66 @@ function encoding_com_admin_form() {
 		    '256k' => '256k', 
 			'320k' => '320k'					
 		));		
-				
+		
+	$form ['transcode_default_settings']['transcode_frame_rate'] = array(
+      '#type' => 'textfield', 
+      '#title' => t('Frame Rate '), 
+      '#default_value' => variable_get('transcode_frame_rate', NULL), 
+      '#description' => t("Frame rate of the transcoded video i.e. 24 or 25 (fps)."), 
+      '#required' => TRUE 
+	);
+  
+
+	$form ['transcode_default_settings']['transcode_two_pass_encoding'] = array(
+		'#type' => 'radios', 
+		'#title' => t('2 pass encoding'), 
+		'#default_value' => variable_get('transcode_two_pass_encoding', 1), 
+		'#options' => array(t('Yes'), t('No')),
+	);
+	
+	$form ['transcode_default_settings']['transcode_cbr'] = array(
+		'#type' => 'radios', 
+		'#title' => t('Constant bitrate'), 
+		'#default_value' => variable_get('transcode_two_pass_encoding', 1), 
+		'#options' => array(t('Yes'), t('No')),
+	);
+	
+	$form ['transcode_default_settings']['transcode_deinterlacing'] = array(
+		'#type' => 'radios', 
+		'#title' => t('De-interlacing'), 
+		'#default_value' => variable_get('transcode_deinterlacing', 1), 
+		'#options' => array(t('Yes'), t('No')),
+	);
+	
+	
+	
+		
+		/*
+		
+		<tr>
+			<td>Constant bitrate</td>
+			<td>
+				<select name="format[cbr]">
+					<option value="yes">yes</option>
+					<option value="no" selected>no</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>De-interlacing </td>
+			<td>
+				<select name="format[deinterlacing]">
+					<option value="yes">yes</option>
+					<option value="no" selected>no</option>
+				</select>
+			</td>
+		</tr>
+		
+		
+		
+		*/
+		
+		
   
    
    
