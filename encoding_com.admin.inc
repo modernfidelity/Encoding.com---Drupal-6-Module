@@ -6,7 +6,8 @@ function encoding_com_admin_form() {
   
   $form ['transcode_default_settings'] = array(
       '#type' => 'fieldset', 
-      '#title' => t('Default Video Transcode'), 
+      '#title' => t('Default Video & Audio Transcode Settings'), 
+   	  '#description' => t("Control the standard transcode settings for video and audio."),
       '#weight' => 0, 
       '#collapsible' => TRUE, 
       '#collapsed' => FALSE );
@@ -14,7 +15,7 @@ function encoding_com_admin_form() {
   $form ['transcode_default_settings']['transcode_format_size'] = array(
       '#type' => 'checkboxes', 
       '#title' => t('Format Size'), 
-      //'#default_value' => variable_get('format_size',''), 
+      '#default_value' => variable_get('transcode_format_size', array('640x480')), 
       '#options' => array(
       	  	'320x240' => '320 x 240', 
 		  	'368x192' => '368 x 192',					
@@ -34,24 +35,40 @@ function encoding_com_admin_form() {
  $form ['transcode_default_settings']['transcode_bitrate_kbps'] = array(
       '#type' => 'checkboxes', 
       '#title' => t('Bitrate (Kbps)'), 
-      //'#default_value' => variable_get('format_size',''), 
+      '#default_value' => variable_get('transcode_bitrate_kbps',array('512k')), 
       '#options' => array(
-      	  	'320x240' => '320 x 240', 
-		  	'368x192' => '368 x 192',					
-			'480x360' => '480 x 360',
-		  	'640x480' => '640 x 480',
-			'800x600' => '800 x 600',
-			'852x480' => '852 x 480',
-			'128x96' => '128 x 96',
-			'176x144' => '176 x 144',	
-			'352x288' => '352 x 288',
-			'704x576' => '704 x 576',
-			'1280x720' => '1280 x 720',
-			'1408x1152' => '1408 x 1152',
-			'1920x1080' => '1920 x 1080'
+      	  	'256k' => '256k', 
+		  	'300k' => '300k',					
+			'512k' => '512k',
+		  	'784k' => '784k',
+ 			'1024k' => '1024k',
+ 			'1600k' => '1600k'
+		));		
+				
+   $form ['transcode_default_settings']['transcode_audio_bitrate_kbps'] = array(
+      '#type' => 'checkboxes', 
+      '#title' => t('Audio bitrate (kbps)'), 
+      '#default_value' => variable_get('transcode_audio_bitrate_kbps', array('160k')), 
+      '#options' => array(
+		   	'32k' => '32k', 
+		   	'40k' => '40k', 
+		   	'48k' => '48k', 
+		   	'56k' => '56k', 
+		   	'64k' => '64k', 
+		   	'80k' => '80k', 
+		   	'96k' => '96k', 
+		   	'112k' => '112k', 
+		   	'128k' => '128k', 
+		   	'144k' => '144k', 
+		   	'160k' => '160k', 
+		   	'192k' => '192k', 
+		   	'224k' => '224k', 
+		    '256k' => '256k', 
+			'320k' => '320k'					
 		));		
 				
   
+   
    
   $form ['encoding_com_settings'] = array(
       '#type' => 'fieldset', 
