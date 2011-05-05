@@ -120,13 +120,6 @@ function encoding_com_admin_form() {
       '#description' => t("Your Encoding.com API User Key, as per your account details."), 
       '#required' => TRUE );
   
-  $form ['encoding_com_settings'] ['encoding_com_s3_bucket'] = array(
-      '#type' => 'textfield', 
-      '#title' => t('S3 Bucket URL'), 
-      '#default_value' => variable_get('encoding_com_s3_bucket', NULL), 
-      '#description' => t("The name of the S3 bucket where Encoding.com will store your videos."), 
-      '#required' => TRUE );
-  
   $form ['amazon_s3_settings'] = array(
       '#type' => 'fieldset', 
       '#title' => t('Amazon S3 Details'), 
