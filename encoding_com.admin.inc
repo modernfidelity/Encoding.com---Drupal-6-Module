@@ -11,7 +11,7 @@ function encoding_com_admin_form() {
       '#description' => t("Control the standard transcode settings for video and audio."), 
       '#weight' => 0, 
       '#collapsible' => TRUE, 
-      '#collapsed' => FALSE );
+      '#collapsed' => TRUE );
   
   $form ['transcode_default_settings'] ['transcode_format_size'] = array(
       '#type' => 'checkboxes', 
@@ -102,7 +102,7 @@ function encoding_com_admin_form() {
   $form ['encoding_com_settings'] = array(
       '#type' => 'fieldset', 
       '#title' => t('Encoding.com API Details'), 
-      '#weight' => 0, 
+      '#weight' => -1, 
       '#collapsible' => TRUE, 
       '#collapsed' => FALSE );
   
@@ -127,5 +127,48 @@ function encoding_com_admin_form() {
       '#description' => t("The name of the S3 bucket where Encoding.com will store your videos."), 
       '#required' => TRUE );
   
+  $form ['amazon_s3_settings'] = array(
+      '#type' => 'fieldset', 
+      '#title' => t('Amazon S3 Details'), 
+      '#weight' => 0, 
+      '#collapsible' => TRUE, 
+      '#collapsed' => FALSE );
+  
+  $form ['amazon_s3_settings'] ['amazon_s3_bucket_name'] = array(
+      '#type' => 'textfield', 
+      '#title' => t('S3 Bucket'), 
+      '#weight' => -1,
+      '#default_value' => variable_get('amazon_s3_bucket_name', NULL), 
+      '#description' => t("Your Encoding.com User ID, as per your account details."), 
+      '#required' => TRUE );
+  
+  $form ['amazon_s3_settings'] ['amazon_s3_file_perms'] = array(
+      '#type' => 'select', 
+      '#title' => t('Display of XML feed items'), 
+      '#default_value' => variable_get('amazon_s3_file_perms', array('read')), 
+      '#options' => array(
+          'read' => t('Public read'), 
+          'read_write' => t('Public read + write') ), 
+      '#description' => t('Global setting for the length of XML feed items that are output by default.') );
+  
+  $form ['amazon_s3_settings'] ['amazon_s3_file_directory'] = array(
+      '#type' => 'textfield', 
+      '#title' => t('File directory on S3'), 
+      '#default_value' => variable_get('amazon_s3_file_directory', NULL), 
+      '#description' => t("The name of the S3 bucket where Encoding.com will store your videos."), 
+      '#required' => TRUE );
+  
+  
+   $form ['amazon_s3_settings'] ['amazon_s3_cloudfront_url'] = array(
+      '#type' => 'textfield', 
+      '#title' => t('CloudFront URL'), 
+      '#weight' => 0,
+      '#default_value' => variable_get('amazon_s3_cloudfront_url', NULL), 
+      '#description' => t("*Optional - use your cloudfront account with the site"), 
+      '#required' => TRUE );
+  
+  
+  
   return system_settings_form($form);
+
 }
