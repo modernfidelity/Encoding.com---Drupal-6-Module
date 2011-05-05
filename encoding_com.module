@@ -32,10 +32,10 @@ function encoding_com_menu() {
     'title' => 'Encoding.com API Settings',
     'description' => 'Specify your Encoding.com account details here',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('encoding_com_admin'),
+    'page arguments' => array('encoding_com_admin_form'),
     'access arguments' => array('access administration pages'),
-    'file' => 'encoding_com.admin.inc'
     'type' => MENU_NORMAL_ITEM,
+    'file' => 'encoding_com.admin.inc',
    );
 
   return $items;
