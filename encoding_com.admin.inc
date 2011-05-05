@@ -134,6 +134,22 @@ function encoding_com_admin_form() {
       '#collapsible' => TRUE, 
       '#collapsed' => FALSE );
   
+  $form ['amazon_s3_settings'] ['amazon_s3_access_key_id'] = array(
+      '#type' => 'textfield', 
+      '#title' => t('S3 Access Key ID'), 
+      '#weight' => -1,
+      '#default_value' => variable_get('amazon_s3_access_key_id', NULL), 
+      '#description' => t("Your Amazon S3 Access Key ID."), 
+      '#required' => TRUE );
+  
+   $form ['amazon_s3_settings'] ['amazon_s3_secret_access_key'] = array(
+      '#type' => 'textfield', 
+      '#title' => t('S3 Secret Access Key'), 
+      '#weight' => -1,
+      '#default_value' => variable_get('amazon_s3_secret_access_key', NULL), 
+      '#description' => t("Your Amazon S3 Secret Access Key."), 
+      '#required' => TRUE );
+  
   $form ['amazon_s3_settings'] ['amazon_s3_bucket_name'] = array(
       '#type' => 'textfield', 
       '#title' => t('S3 Bucket'), 
@@ -156,7 +172,7 @@ function encoding_com_admin_form() {
       '#title' => t('File directory on S3'), 
       '#default_value' => variable_get('amazon_s3_file_directory', NULL), 
       '#description' => t("The name of the S3 bucket where Encoding.com will store your videos."), 
-      '#required' => TRUE );
+      '#required' => FALSE );
   
   
    $form ['amazon_s3_settings'] ['amazon_s3_cloudfront_url'] = array(
@@ -165,7 +181,7 @@ function encoding_com_admin_form() {
       '#weight' => 0,
       '#default_value' => variable_get('amazon_s3_cloudfront_url', NULL), 
       '#description' => t("*Optional - use your cloudfront account with the site"), 
-      '#required' => TRUE );
+      '#required' => FALSE );
   
   
   
