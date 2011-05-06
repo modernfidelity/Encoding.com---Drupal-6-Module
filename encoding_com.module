@@ -10,6 +10,51 @@ function encoding_com_theme() {
   );
 }
 
+
+
+
+
+
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * We add our custom 'preroll' form elements to node-forms for:
+ * - game nodes
+ * - show nodes
+ * - video nodes??
+ */
+function encoding_com_form_alter(&$form, $form_state, $form_id) {
+  
+	// check that the form is a node-edit form (and the node-type can use pre-rolls) before altering the form.
+  if (strpos($form_id, '_node_form') && isset($form ['#node']) && $form ['#node']->type='video') {
+    
+  	$form ['video_file'] = array(
+        '#title' => t('video file s3'), 
+  		'#description' => t('The following section is for adding specific pre-roll advertising to this particular node: '),
+        '#attributes' => array(
+            'id' => 'cn_ad_prerolls_controls' ), 
+        '#type' => 'fieldset', 
+        '#collapsible' => TRUE, 
+        '#collapsed' => FALSE, 
+        '#tree' => TRUE );
+    
+    
+ 
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 function encoding_com_help($path, $arg) {
   $output = '';
 
